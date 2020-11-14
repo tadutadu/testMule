@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="1df7870d-8135-479f-a5fd-2da1e94425c0" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="splunkloggingdemoFlow" doc:id="c3b94b37-e387-4f81-ac90-fcd1cb47419a" >
+		<http:listener doc:name="Listener" doc:id="1a9edf0c-5f42-437b-99c8-3eb9b3d18d4b" config-ref="HTTP_Listener_config" path="/splunkLog"/>
+		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="a324f340-eda3-4bbd-8af6-12b2791b0692" />
+		<logger level="INFO" doc:name="Logger" doc:id="66929324-295f-49e6-b4d3-df30455a4d5d" message="This log is for splunk #[payload]"/>
+		<logger level="INFO" doc:name="logIncommingRequest" doc:id="6cb94af7-5302-4434-8756-371e026ce11a" message="#[payload]" category="splunk.logger"/>
+	</flow>
+</mule>
